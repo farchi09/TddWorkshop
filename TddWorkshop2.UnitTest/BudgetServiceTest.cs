@@ -1,5 +1,6 @@
 using FluentAssertions;
 using NSubstitute;
+using TddWorkshop2.Models;
 using TddWorkshop2.Repos;
 using TddWorkshop2.Services;
 
@@ -32,15 +33,33 @@ public class Tests
         var query = _budgetService.Query(new DateTime(2023,12,01), new DateTime(2023, 12,05));
         query.Should().Be(500);
     }
+
+    [Test]
+    public void Query_Cross_Month()
+    {
+        GivenBudgetList();
+        var query = _budgetService.Query(new DateTime(2023,12,28), new DateTime(2023, 01,02));
+        query.Should().Be(700);
+    }
     
     private void GivenBudgetList()
     {
         _budgetRepo.GetAll().Returns(new List<Budget>()
         {
-            new Budget()
+            new Budget
             {
                 YearMonth = "202312",
                 Amount = 3100
+            },
+            new Budget
+            {
+                YearMonth = "202401",
+                Amount = 6200
+            },
+            new Budget
+            {
+                YearMonth = "202402",
+                Amount = 2929
             }
         });
     }

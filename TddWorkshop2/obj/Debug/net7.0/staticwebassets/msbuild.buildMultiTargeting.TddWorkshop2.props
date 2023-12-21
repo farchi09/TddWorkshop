@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\TddWorkshop2.props" />
+</Project>
